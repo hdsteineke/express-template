@@ -37,10 +37,10 @@ const routes = {
   },
   planets: {
     GET(req, res) {
-      res.end('planets GET');
+      res.end('tasks GET');
     },
     POST(req, res) {
-      res.end('planets POST');
+      res.end('tasks POST');
     },
   },
 };
