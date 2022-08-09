@@ -32,4 +32,20 @@ describe('users', () => {
       email,
     });
   });
+
+
+  it.only('should return a list of users', async () => {
+    const res = await request(app).post('/api/v1/users').send(mockUser);
+    const { email } = mockUser;
+
+    const res2 = await request(app).get('/api/v1/users');
+
+    expect(res2.body).toEqual([{
+      id: "1",
+      email,
+    }]);
+  });
+
+
+
 });
