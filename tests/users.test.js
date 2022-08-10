@@ -16,14 +16,14 @@ const registerAndLogin = async (userProps = {}) => {
   const user = await UserService.create({ ...mockUser, ...userProps });
 
   const { email } = user;
-  await (await agent.post('/api/v1/users/sessions')).setEncoding({ email, password });
+  await agent.post('/api/v1/users/sessions').send({ email, password });
   return [agent, user];
 };
 
 describe('users', () => {
   beforeEach(setupDb);
 
-  it.only('should create a new user', async () => {
+  it('should create a new user', async () => {
     const res = await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
 
@@ -34,8 +34,8 @@ describe('users', () => {
   });
 
 
-  it.only('should return a list of users', async () => {
-    const res = await request(app).post('/api/v1/users').send(mockUser);
+  it('should return a list of users', async () => {
+    await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
 
     const res2 = await request(app).get('/api/v1/users');
@@ -44,6 +44,20 @@ describe('users', () => {
       id: "1",
       email,
     }]);
+  });
+
+
+  it('should return a specific user', async () => {
+    const res = await request(app).post('/api/v1/users').send(mockUser);
+    const { email } = mockUser;
+
+    const res2 = await request(app).get('/api/v1/users/1');
+    console.log('res2.body', res2.body);
+
+    expect(res2.body).toEqual({
+      id: "1",
+      email,
+    });
   });
 
 
