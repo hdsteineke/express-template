@@ -20,9 +20,9 @@ const mockUser = {
 };
 
 async function signUpUser(credentials = mockUser) {
-  const res = await request(app).post('/api/v1/users').send(mockUser);
-
   const agent = request.agent(app);
+  await agent.post('/api/v1/users').send(mockUser);
+
   const res2 = await agent
     .post('/api/v1/users/login')
     .send(credentials);

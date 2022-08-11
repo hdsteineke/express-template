@@ -48,19 +48,13 @@ describe('users', () => {
   });
 
   it('POST /login should sign in a user', async () => {
-    // const res = await request(app).post('/api/v1/users').send(mockUser);
 
-    const { agent, user, credentials } = await signUpUser();
-
-// console.log('USERTEST', user);
-
-//     expect(user).toEqual({
-//       id: expect.any(String),
-//       email: credentials.email,
-//     });
+    const { agent, credentials } = await signUpUser();
+    await agent.post('/api/v1/users/login').send(credentials);
 
     const { statusCode, body } = await agent.get('/api/v1/users/verify');
-    expect(statusCode).toBe(200);
+    //expect(statusCode).toBe(200);
+    expect(body.email).toEqual(credentials.email);
   });
 
 });
