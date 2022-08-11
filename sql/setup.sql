@@ -12,6 +12,6 @@ CREATE TABLE tasks (
   user_id BIGINT,
   description VARCHAR NOT NULL,
   completed BOOLEAN NOT NULL DEFAULT(false),
-  created_att TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id)
 )
