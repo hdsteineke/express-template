@@ -1,4 +1,4 @@
-const { setupDb } = require('./utils.js');
+const { setupDb, signUpUser } = require('./utils.js');
 const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
@@ -6,18 +6,6 @@ const UserService = require('../lib/services/UserService');
 const mockUser = {
   email: 'test@user.com',
   password: '1234567',
-};
-
-const registerAndLogin = async (userProps = {}) => {
-  const password = userProps.password ?? mockUser.password;
-
-  const agent = request.agent(app);
-
-  const user = await UserService.create({ ...mockUser, ...userProps });
-
-  const { email } = user;
-  await agent.post('/api/v1/users/sessions').send({ email, password });
-  return [agent, user];
 };
 
 describe('users', () => {
@@ -34,7 +22,7 @@ describe('users', () => {
   });
 
 
-  it('should return a list of users', async () => {
+  it('GET / should return a list of users', async () => {
     await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
 
@@ -47,7 +35,7 @@ describe('users', () => {
   });
 
 
-  it('should return a specific user', async () => {
+  it('GET /:id should return a specific user', async () => {
     const res = await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
 
@@ -59,6 +47,20 @@ describe('users', () => {
     });
   });
 
+  it('POST /login should sign in a user', async () => {
+    // const res = await request(app).post('/api/v1/users').send(mockUser);
 
+    const { agent, user, credentials } = await signUpUser();
+
+// console.log('USERTEST', user);
+
+//     expect(user).toEqual({
+//       id: expect.any(String),
+//       email: credentials.email,
+//     });
+
+    const { statusCode, body } = await agent.get('/api/v1/users/verify');
+    expect(statusCode).toBe(200);
+  });
 
 });
