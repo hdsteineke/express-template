@@ -25,7 +25,6 @@ describe('users', () => {
 
   it('should create a new user', async () => {
     const res = await request(app).post('/api/v1/users').send(mockUser);
-    console.log('resCREATE', res.body);
     const { email } = mockUser;
 
     expect(res.body).toEqual({
@@ -51,10 +50,8 @@ describe('users', () => {
   it('should return a specific user', async () => {
     const res = await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
-    console.log('mockUser', mockUser);
 
     const res2 = await request(app).get('/api/v1/users/1');
-    console.log('res2.body', res2.body);
 
     expect(res2.body).toEqual({
       id: "1",
