@@ -1,7 +1,6 @@
 const { setupDb, signUpUser } = require('./utils.js');
 const request = require('supertest');
 const app = require('../lib/app');
-const UserService = require('../lib/services/UserService');
 
 const mockUser = {
   email: 'test@user.com',
@@ -36,7 +35,7 @@ describe('users', () => {
 
 
   it('GET /:id should return a specific user', async () => {
-    const res = await request(app).post('/api/v1/users').send(mockUser);
+    await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
 
     const res2 = await request(app).get('/api/v1/users/1');
