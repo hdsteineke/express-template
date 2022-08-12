@@ -1,3 +1,4 @@
+# the yml file is commonly used as a configuration file, which defines a program/app's settings 
 name: Express CI
 
 on: [push, pull_request]
